@@ -4,73 +4,104 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * @title TokenPetScan
+ * @dev Implementation of a controlled ERC20 token with agent-based management capabilities
+ * This contract allows for token minting, burning, account freezing, and forced transfers
+ * by authorized agents under the supervision of an owner
+ */
 contract TokenPetScan is ERC20, Ownable {
+    // Mapping to track authorized agents
     mapping(address => bool) private agents;
     // Mapping to track frozen accounts
     mapping(address => bool) private frozenAccounts;
-    // Global freeze state
+    // Global freeze switch
     bool private globalFreeze;
+    // Address where tokens can be redeemed
+    address public redeemAddressContract;
 
+    // Events for various contract actions
     event AccountFrozen(address indexed account, bool frozen);
     event GlobalFreeze(bool frozen);
     event ForcedTransfer(address indexed from, address indexed to, uint256 value);
     event TokensRevoked(address indexed from, uint256 value);
-
     event AgentAdded(address indexed agent);
     event AgentRemoved(address indexed agent);
 
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) Ownable(msg.sender){}
+    /**
+     * @dev Constructor initializes the token with a name and symbol
+     * @param name The name of the token
+     * @param symbol The symbol of the token
+     */
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) Ownable(msg.sender) {}
 
+    /**
+     * @dev Modifier to restrict functions to authorized agents only
+     */
     modifier onlyAgent() {
         require(agents[msg.sender], "Only agents can perform this action");
         _;
     }
 
-    // Add an agent to the list
+    /**
+     * @dev Adds a new agent to the system
+     * @param _agent Address of the agent to add
+     */
     function addAgent(address _agent) external onlyOwner {
         agents[_agent] = true;
         emit AgentAdded(_agent);
     }
 
-    // Remove an agent from the list
+    /**
+     * @dev Removes an agent from the system
+     * @param _agent Address of the agent to remove
+     */
     function removeAgent(address _agent) external onlyOwner {
         agents[_agent] = false;
         emit AgentRemoved(_agent);
     }
 
-    // Mint function restricted to agents
+    /**
+     * @dev Sets the address where tokens can be redeemed
+     * @param _redeemAddress The address of the redemption contract
+     */
+    function setRedeemAddressContract(address _redeemAddress) external onlyOwner {
+        require(_redeemAddress != address(0), "Cannot set zero address");
+        redeemAddressContract = _redeemAddress;
+    }
+
+    /**
+     * @dev Mints new tokens to a specified address
+     * @param to Address to receive the minted tokens
+     * @param amount Amount of tokens to mint
+     */
     function mint(address to, uint256 amount) external onlyAgent {
         _mint(to, amount);
     }
 
-    // Burn function restricted to agents
+    /**
+     * @dev Burns tokens from a specified address
+     * @param from Address to burn tokens from
+     * @param amount Amount of tokens to burn
+     */
     function burn(address from, uint256 amount) external onlyAgent {
         _burn(from, amount);
     }
 
-    // Override transfer functions to make token non-transferable except for owner
-    function _transfer(address from, address to, uint256 amount) internal virtual override {
-        if (from != owner() && to != owner()) {
-            revert("Transfers are not allowed for this token");
-        }
-        super._transfer(from, to, amount);
-    }
-
-    function _approve(address owner, address spender, uint256 amount) internal virtual override {
-        if (owner != _msgSender() && spender != _msgSender()) {
-            revert("Approvals are not allowed for this token");
-        }
-        super._approve(owner, spender, amount);
-    }
-
-    // Freeze a specific account
+    /**
+     * @dev Freezes a specific account
+     * @param account Address of the account to freeze
+     */
     function freezeAccount(address account) external onlyAgent {
         require(account != address(0), "Cannot freeze zero address");
         frozenAccounts[account] = true;
         emit AccountFrozen(account, true);
     }
 
-    // Unfreeze a specific account
+    /**
+     * @dev Unfreezes a specific account
+     * @param account Address of the account to unfreeze
+     */
     function unfreezeAccount(address account) external onlyAgent {
         require(account != address(0), "Cannot unfreeze zero address");
         require(frozenAccounts[account], "Account is not frozen");
@@ -78,19 +109,28 @@ contract TokenPetScan is ERC20, Ownable {
         emit AccountFrozen(account, false);
     }
 
-    // Freeze all token transfers
+    /**
+     * @dev Enables global freeze on all transfers
+     */
     function freezeGlobal() external onlyAgent {
         globalFreeze = true;
         emit GlobalFreeze(true);
     }
 
-    // Unfreeze all token transfers 
+    /**
+     * @dev Disables global freeze on all transfers
+     */
     function unfreezeGlobal() external onlyAgent {
         globalFreeze = false;
         emit GlobalFreeze(false);
     }
 
-    // Force transfer tokens from one address to another (only owner)
+    /**
+     * @dev Forces a transfer between two addresses
+     * @param from Source address
+     * @param to Destination address
+     * @param amount Amount of tokens to transfer
+     */
     function forceTransfer(address from, address to, uint256 amount) external onlyAgent {
         require(from != address(0), "Transfer from zero address");
         require(to != address(0), "Transfer to zero address");
@@ -100,7 +140,11 @@ contract TokenPetScan is ERC20, Ownable {
         emit ForcedTransfer(from, to, amount);
     }
 
-    // Revoke tokens from an address and send them to owner (only owner)
+    /**
+     * @dev Revokes tokens from an address and sends them to the owner
+     * @param from Address to revoke tokens from
+     * @param amount Amount of tokens to revoke
+     */
     function revokeTokens(address from, uint256 amount) external onlyAgent {
         require(from != address(0), "Revoke from zero address");
         require(balanceOf(from) >= amount, "Insufficient balance");
@@ -109,4 +153,24 @@ contract TokenPetScan is ERC20, Ownable {
         emit TokensRevoked(from, amount);
     }
 
+    /**
+     * @dev Override of ERC20 transfer function to restrict transfers to redeem address only
+     * @param to Destination address
+     * @param amount Amount of tokens to transfer
+     */
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        require(to == redeemAddressContract, "Transfers are only allowed to redeem address");
+        return super.transfer(to, amount);
+    }
+
+    /**
+     * @dev Override of ERC20 transferFrom function to restrict transfers to redeem address only
+     * @param from Source address
+     * @param to Destination address
+     * @param amount Amount of tokens to transfer
+     */
+    function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
+        require(to == redeemAddressContract, "Transfers are only allowed to redeem address");
+        return super.transferFrom(from, to, amount);
+    }
 }
