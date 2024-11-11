@@ -16,7 +16,7 @@ contract FindPet is Ownable {
     uint256 private postIdCounter = 0;
 
     // Base USDC contract address
-    address constant public USDC = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
+    address constant public USDC = 0x07d83526730c7438048D55A4fc0b850e2aaB6f0b;
 
     // Struct to store post information
     struct Post {
