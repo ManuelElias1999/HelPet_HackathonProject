@@ -173,4 +173,5 @@ contract TokenPetScan is ERC20, Ownable {
         require(to == redeemAddressContract, "Transfers are only allowed to redeem address");
         return super.transferFrom(from, to, amount);
     }
+    
 }

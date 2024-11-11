@@ -146,13 +146,13 @@ contract FindPet is Ownable {
         uint256 beneficiaryAmount = (post.amount * 97) / 100;
         uint256 ownerAmount = post.amount - beneficiaryAmount;
 
-        // Transfer rewards in USDC
+        // Transfer rewards in USDC from this contract
         require(
-            usdc.transfer(_beneficiary, beneficiaryAmount),
+            usdc.transferFrom(address(this), _beneficiary, beneficiaryAmount),
             "Beneficiary USDC transfer failed"
         );
         require(
-            usdc.transfer(owner(), ownerAmount),
+            usdc.transferFrom(address(this), owner(), ownerAmount),
             "Owner USDC transfer failed"
         );
 
