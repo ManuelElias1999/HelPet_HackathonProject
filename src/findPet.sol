@@ -4,7 +4,7 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./registerUsers.sol";
-import "./tokenPetScan.sol";
+import "./tokenHelPet.sol";
 
 /**
  * @title FindPet
@@ -15,8 +15,11 @@ contract FindPet is Ownable {
     // Counter for post IDs
     uint256 private postIdCounter = 0;
 
-    // Base USDC contract address
-    address constant public USDC = 0x07d83526730c7438048D55A4fc0b850e2aaB6f0b;
+    // Taiko USDC contract address
+    //address constant public USDC = 0x07d83526730c7438048D55A4fc0b850e2aaB6f0b;
+
+    // USDCPet contract address
+    address constant public USDC = 0xFfBe90233da12086F7E410142Fd22185A5f84e13;
 
     // Struct to store post information
     struct Post {
@@ -36,7 +39,7 @@ contract FindPet is Ownable {
     
     // Reference to other contracts
     RegisterUsers public registerUsers;
-    TokenPetScan public tokenPetScan;
+    TokenHelPet public tokenHelPet;
     IERC20 public usdc;
 
     // Events
@@ -48,13 +51,13 @@ contract FindPet is Ownable {
     /**
      * @dev Constructor initializes the contract with references to other contracts
      * @param _registerUsers Address of the RegisterUsers contract
-     * @param _tokenPetScan Address of the TokenPetScan contract
+     * @param _tokenHelPet Address of the TokenHelPet contract
      */
-    constructor(address _registerUsers, address _tokenPetScan) Ownable(msg.sender) {
+    constructor(address _registerUsers, address _tokenHelPet) Ownable(msg.sender) {
         require(_registerUsers != address(0), "Invalid RegisterUsers address");
-        require(_tokenPetScan != address(0), "Invalid TokenPetScan address");
+        require(_tokenHelPet != address(0), "Invalid TokenHelPet address");
         registerUsers = RegisterUsers(_registerUsers);
-        tokenPetScan = TokenPetScan(_tokenPetScan);
+        tokenHelPet = TokenHelPet(_tokenHelPet);
         usdc = IERC20(USDC);
     }
 
@@ -156,8 +159,8 @@ contract FindPet is Ownable {
             "Owner USDC transfer failed"
         );
 
-        // Mint PetScan tokens to beneficiary
-        tokenPetScan.mint(_beneficiary, 50);
+        // Mint HelPet tokens to beneficiary
+        tokenHelPet.mint(_beneficiary, 50);
 
         emit PostClosed(_postId, _beneficiary, post.amount);
     }

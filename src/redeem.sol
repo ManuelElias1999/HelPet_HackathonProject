@@ -4,7 +4,7 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./registerUsers.sol";
-import "./tokenPetScan.sol";
+import "./tokenHelPet.sol";
 
 /**
  * @title Redeem
@@ -24,7 +24,7 @@ contract Redeem is Ownable {
 
     // Reference to other contracts
     RegisterUsers public registerUsers;
-    TokenPetScan public tokenPetScan;
+    TokenHelPet public tokenHelPet;
 
     // Mapping to track authorized agents
     mapping(address => bool) private agents;
@@ -41,13 +41,13 @@ contract Redeem is Ownable {
     /**
      * @dev Constructor initializes the contract with references to other contracts
      * @param _registerUsers Address of the RegisterUsers contract
-     * @param _tokenPetScan Address of the TokenPetScan contract
+     * @param _tokenHelPet Address of the TokenHelPet contract
      */
-    constructor(address _registerUsers, address _tokenPetScan) Ownable(msg.sender) {
+    constructor(address _registerUsers, address _tokenHelPet) Ownable(msg.sender) {
         require(_registerUsers != address(0), "Invalid RegisterUsers address");
-        require(_tokenPetScan != address(0), "Invalid TokenPetScan address");
+        require(_tokenHelPet != address(0), "Invalid TokenHelPet address");
         registerUsers = RegisterUsers(_registerUsers);
-        tokenPetScan = TokenPetScan(_tokenPetScan);
+        tokenHelPet = TokenHelPet(_tokenHelPet);
     }
 
     /**
@@ -90,7 +90,7 @@ contract Redeem is Ownable {
     /**
      * @dev Creates a new post for an item
      * @param _stock Number of items in stock
-     * @param _price Price in TokenPetScan tokens
+     * @param _price Price in TokenHelPet tokens
      */
     function createPost(uint256 _stock, uint256 _price) external {
         require(registerUsers.isRegisteredEntity(msg.sender), "Only registered entities can create posts");
@@ -135,12 +135,12 @@ contract Redeem is Ownable {
         require(post.isOpen, "Post is closed");
         require(post.stock > 0, "No items left in stock");
         require(
-            tokenPetScan.balanceOf(msg.sender) >= post.price,
+            tokenHelPet.balanceOf(msg.sender) >= post.price,
             "Insufficient token balance"
         );
 
         post.stock--;
-        tokenPetScan.transferFrom(msg.sender, post.creator, post.price);
+        tokenHelPet.transferFrom(msg.sender, post.creator, post.price);
         
         emit ItemRedeemed(_postId, msg.sender);
     }

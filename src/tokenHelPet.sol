@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.26;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title TokenPetScan
+ * @title TokenHelPet
  * @dev Implementation of a controlled ERC20 token with agent-based management capabilities
  * This contract allows for token minting, burning, account freezing, and forced transfers
  * by authorized agents under the supervision of an owner
  */
-contract TokenPetScan is ERC20, Ownable {
+contract TokenHelPet is ERC20, Ownable {
     // Mapping to track authorized agents
     mapping(address => bool) private agents;
     // Mapping to track frozen accounts

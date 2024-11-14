@@ -2,15 +2,15 @@
 pragma solidity ^0.8.26;
 
 import {Script, console} from "forge-std/Script.sol";
-import {TokenPetScan} from "../src/tokenPetScan.sol";
+import {TokenHelPet} from "../src/tokenHelPet.sol";
 
 /**
- * @title TokenPetScanScript
- * @dev Deployment script for TokenPetScan contract
+ * @title TokenHelPetScript 
+ * @dev Deployment script for TokenHelPet contract
  */
-contract TokenPetScanScript is Script {
-    // Instance of the TokenPetScan contract
-    TokenPetScan public token;
+contract TokenHelPetScript is Script {
+    // Instance of the TokenHelPet contract
+    TokenHelPet public token;
     // Address that will be set as owner and agent
     address owner;
 
@@ -23,14 +23,13 @@ contract TokenPetScanScript is Script {
 
     /**
      * @dev Main deployment function
-     * Deploys TokenPetScan contract and sets up initial agent
+     * Deploys TokenHelPet contract and sets up initial agent
      */
     function run() public {
-        setUp();
         vm.startBroadcast();
 
-        // Deploy new token contract with name "PetScan" and symbol "PET"
-        token = new TokenPetScan("PetScan", "PET");
+        // Deploy new token contract with name "PetScan Token" and symbol "PST"
+        token = new TokenHelPet("PetScan Token", "PST");
         // Add deployer as an agent
         token.addAgent(owner);
 

@@ -4,7 +4,7 @@ pragma solidity ^0.8.26;
 import {Script, console} from "forge-std/Script.sol";
 import {Redeem} from "../src/redeem.sol";
 import {RegisterUsers} from "../src/registerUsers.sol";
-import {TokenPetScan} from "../src/tokenPetScan.sol";
+import {TokenHelPet} from "../src/tokenHelPet.sol";
 
 /**
  * @title RedeemScript
@@ -14,7 +14,7 @@ contract RedeemScript is Script {
     // Contract instances
     Redeem public redeem;
     RegisterUsers public registerUsers;
-    TokenPetScan public tokenPetScan;
+    TokenHelPet public tokenHelPet;
     // Address that will be set as owner and agent
     address owner;
 
@@ -34,15 +34,15 @@ contract RedeemScript is Script {
 
         // Deploy dependency contracts first
         registerUsers = new RegisterUsers();
-        tokenPetScan = new TokenPetScan("PetScan Token", "PST");
+        tokenHelPet = new TokenHelPet("PetScan Token", "PST");
 
         // Deploy Redeem with dependencies
-        redeem = new Redeem(address(registerUsers), address(tokenPetScan));
+        redeem = new Redeem(address(registerUsers), address(tokenHelPet));
         
         // Set up initial agents
         redeem.addAgent(owner);
         registerUsers.addAgent(owner);
-        tokenPetScan.addAgent(owner);
+        tokenHelPet.addAgent(owner);
 
         vm.stopBroadcast();
     }
