@@ -2,11 +2,10 @@
 pragma solidity ^0.8.26;
 
 /**
- * @title USDCPet
- * @dev Contract for managing USDCPet tokens
- * 
- * You can see the contract at https://hekla.taikoscan.io/address/0xFfBe90233da12086F7E410142Fd22185A5f84e13
- */
+ * @dev Contract deployed on Taiko Hekla
+ * @notice You can view the deployed contract at:
+ * https://hekla.taikoscan.io/address/0xFfBe90233da12086F7E410142Fd22185A5f84e13
+*/
 
 contract USDCPet {
     string public name = "USD Coin Pet";

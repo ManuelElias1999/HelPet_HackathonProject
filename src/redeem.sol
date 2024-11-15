@@ -7,9 +7,11 @@ import "./registerUsers.sol";
 import "./tokenHelPet.sol";
 
 /**
- * @title Redeem
- * @dev Contract for managing token redemption with agent-based control
- */
+ * @dev Contract deployed on Taiko Hekla
+ * @notice You can view the deployed contract at:
+ * https://hekla.taikoscan.io/address/0xcB0f68Cb1E6F4466F6970De9a3a70489Ee7D3a7A
+*/
+
 contract Redeem is Ownable {
     // Counter for post IDs
     uint256 private postIdCounter = 0;

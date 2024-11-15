@@ -4,9 +4,11 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title RegisterUsers
- * @dev Contract for managing user registration with agent-based control
- */
+ * @dev Contract deployed on Taiko Hekla
+ * @notice You can view the deployed contract at:
+ * https://hekla.taikoscan.io/address/0xd28eb2D29964127D102cD0047A1fee319B328Bca
+*/
+
 contract RegisterUsers is Ownable {
     // Mapping to track authorized agents
     mapping(address => bool) private agents;

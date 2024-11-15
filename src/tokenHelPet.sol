@@ -5,11 +5,11 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title TokenHelPet
- * @dev Implementation of a controlled ERC20 token with agent-based management capabilities
- * This contract allows for token minting, burning, account freezing, and forced transfers
- * by authorized agents under the supervision of an owner
- */
+ * @dev Contract deployed on Taiko Hekla
+ * @notice You can view the deployed contract at:
+ * https://hekla.taikoscan.io/address/0x6aDBd13cF9E403E0e6B80226810905a64d2B29fE
+*/
+
 contract TokenHelPet is ERC20, Ownable {
     // Mapping to track authorized agents
     mapping(address => bool) private agents;

@@ -7,9 +7,12 @@ import "./registerUsers.sol";
 import "./tokenHelPet.sol";
 
 /**
- * @title FindPet
- * @dev Contract for managing donations with agent-based control and integration with user registration and token systems
- */
+ * @dev Contract deployed on Taiko Hekla
+ * @notice You can view the deployed contract at:
+ * https://hekla.taikoscan.io/address/0x504113E71463E73e516013FBe37EC05aa472B7B3
+*/
+
+
 contract FindPet is Ownable {
     
     // Counter for post IDs

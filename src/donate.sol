@@ -7,9 +7,11 @@ import "./registerUsers.sol";
 import "./tokenHelPet.sol";
 
 /**
- * @title Donate
- * @dev Contract for managing donations with agent-based control and integration with user registration and token systems
- */
+ * @dev Contract deployed on Taiko Hekla
+ * @notice You can view the deployed contract at:
+ * https://hekla.taikoscan.io/address/0xB909aF950B7cd7abcDFebd2f7Ec9133E141d55A5
+*/
+
 contract Donate is Ownable {
     
     // Counter for post IDs
