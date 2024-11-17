@@ -14,6 +14,7 @@ contract USDCPet {
     
     mapping(address => uint256) public balanceOf;
 
+
     // Function to mint new tokens
     function mint(address to, uint256 amount) public {
         balanceOf[to] += amount;

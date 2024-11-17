@@ -130,4 +130,6 @@ contract RegisterUsers is Ownable {
     function isAgent(address _address) external view returns (bool) {
         return agents[_address];
     }
+
+    
 }
