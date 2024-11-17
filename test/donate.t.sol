@@ -9,23 +9,16 @@ import {Donate} from "../src/donate.sol";
  * forge test -vvvv --match-path test/donate.t.sol --fork-url https://rpc.test.taiko.xyz
  * 
  * @dev Contract deployed on Taiko Hekla
- * https://explorer.test.taiko.xyz/address/0xB909aF950B7cd7abcDFebd2f7Ec9133E141d55A5
+ * https://hekla.taikoscan.io/address/0xB909aF950B7cd7abcDFebd2f7Ec9133E141d55A5
 */
 
 contract DonateTest is Test {
+    address constant owner = 0xd806A01E295386ef7a7Cea0B9DA037B242622743;
     Donate public donate;
-    address owner;
-    address user1;
-    address entity1;
-    address agent;
     
     function setUp() public {
         donate = Donate(0xB909aF950B7cd7abcDFebd2f7Ec9133E141d55A5);
-        
-        owner = makeAddr("owner");
-        user1 = makeAddr("user1");
-        entity1 = makeAddr("entity1");
-        agent = makeAddr("agent");
     }
-
+    
+    // -----------------------------------
 }
