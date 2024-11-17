@@ -10,7 +10,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * https://hekla.taikoscan.io/address/0x6aDBd13cF9E403E0e6B80226810905a64d2B29fE
 */
 
-
 contract TokenHelPet is ERC20, Ownable {
     // Mapping to track authorized agents
     mapping(address => bool) private agents;

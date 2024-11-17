@@ -146,4 +146,5 @@ contract Redeem is Ownable {
         
         emit ItemRedeemed(_postId, msg.sender);
     }
+    
 }

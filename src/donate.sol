@@ -175,5 +175,4 @@ contract Donate is Ownable {
         emit DonationReceived(_postId, msg.sender, _amount);
     }
 
-    
 }

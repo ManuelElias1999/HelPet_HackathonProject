@@ -131,5 +131,4 @@ contract RegisterUsers is Ownable {
         return agents[_address];
     }
 
-    
 }

@@ -12,7 +12,6 @@ import "./tokenHelPet.sol";
  * https://hekla.taikoscan.io/address/0x504113E71463E73e516013FBe37EC05aa472B7B3
 */
 
-
 contract FindPet is Ownable {
     
     // Counter for post IDs
@@ -183,4 +182,3 @@ contract FindPet is Ownable {
     }
 
 }
-

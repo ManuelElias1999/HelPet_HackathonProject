@@ -8,6 +8,7 @@ import {RegisterUsers} from "../src/registerUsers.sol";
  * @title RegisterUsersScript
  * @dev Deployment script for RegisterUsers contract
  */
+
 contract RegisterUsersScript is Script {
     // Instance of the RegisterUsers contract
     RegisterUsers public registerUsers;
@@ -35,4 +36,5 @@ contract RegisterUsersScript is Script {
 
         vm.stopBroadcast();
     }
+    
 }

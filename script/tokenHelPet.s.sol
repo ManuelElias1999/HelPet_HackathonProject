@@ -8,6 +8,7 @@ import {TokenHelPet} from "../src/tokenHelPet.sol";
  * @title TokenHelPetScript 
  * @dev Deployment script for TokenHelPet contract
  */
+
 contract TokenHelPetScript is Script {
     // Instance of the TokenHelPet contract
     TokenHelPet public token;
@@ -35,4 +36,5 @@ contract TokenHelPetScript is Script {
 
         vm.stopBroadcast();
     }
+
 }

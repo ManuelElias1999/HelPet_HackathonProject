@@ -10,6 +10,7 @@ import {TokenHelPet} from "../src/tokenHelPet.sol";
  * @title RedeemScript
  * @dev Deployment script for Redeem contract
  */
+
 contract RedeemScript is Script {
     // Contract instances
     Redeem public redeem;
@@ -46,4 +47,5 @@ contract RedeemScript is Script {
 
         vm.stopBroadcast();
     }
+    
 }
